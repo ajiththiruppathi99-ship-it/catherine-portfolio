@@ -18,7 +18,8 @@
 	position: relative;
 	overflow: hidden;
 	padding: 0 1rem;
-	padding-bottom: 2rem; /* Reduced to fit better on mobile screens */
+	padding-top: 80px;
+	padding-bottom: 115vh;
 }
 
 /* --- Globe Visualization --- */
@@ -35,11 +36,11 @@
 }
 
 .globe-visual {
-	width: auto;
-	height: auto;
-	min-width: 140%;
-	object-fit: contain;
-	opacity: 0.6;
+	width: 100%;
+	max-width: 100%;
+	object-fit: cover;
+	object-position: top;
+	opacity: 0.9;
 }
 
 /* --- Header Section --- */
@@ -204,7 +205,13 @@
 		border-top: none;
 	}
 	.social-links { gap: 1.5rem; }
-	.globe-visual { min-width: 180%; }
+	.globe-visual { 
+		width: auto;
+		height: auto;
+		min-width: 180%; 
+		object-fit: contain;
+		opacity: 0.6;
+	}
 }
 
 
@@ -242,7 +249,13 @@
 	}
 	.social-icon { width: 36px; height: 36px; font-size: 1.2rem; }
 	.copyright-text { font-size: 0.8rem; }
-	.globe-visual { min-width: 220%; opacity: 0.5; }
+	.globe-visual { 
+		width: auto;
+		height: auto;
+		min-width: 220%; 
+		opacity: 0.5; 
+		object-fit: contain;
+	}
 
 	/* --- Specific fix for narrow phones (overlap prevention) --- */
 	@media (max-width: 380px) {
