@@ -1,0 +1,467 @@
+/* ======================================================
+   ABOUT SECTION
+   ====================================================== */
+
+.about-wrapper {
+  width: 100%;
+  background: #f5f4f0;
+  padding: 90px 120px 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ── HEADING ── */
+.about-title {
+  font-size: 38px;
+  font-weight: 600;
+  color: #0f2a52;
+  text-align: center;
+  margin-bottom: 28px;
+  letter-spacing: -0.5px;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ── BIO ── */
+.about-bio {
+  font-size: 15.5px;
+  color: #555;
+  text-align: center;
+  line-height: 1.9;
+  max-width: 780px;
+  margin-bottom: 64px;
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
+  opacity: 0;
+  transform: translateX(-80px);
+  animation: bioSlideIn 0.8s ease-out forwards;
+  animation-delay: 3s;
+}
+
+.about-bio.animate {
+  animation: bioSlideIn 0.8s ease-out forwards;
+  animation-delay: 0.3s;
+}
+
+@keyframes bioSlideIn {
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* ── CARDS ROW ── */
+.about-cards {
+  display: flex;
+  gap: 28px;
+  justify-content: center;
+  width: 100%;
+  max-width: 960px;
+}
+
+/* ======================================================
+   FLIP CARD SCENE
+   ====================================================== */
+
+.about-card-scene {
+  flex: 1;
+  perspective: 1000px;
+  min-height: 320px;
+}
+
+.about-card-flipper {
+  width: 100%;
+  height: 100%;
+  min-height: 320px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.75s cubic-bezier(0.4, 0.2, 0.2, 1);
+}
+
+.about-card-flipper.flipped {
+  transform: rotateY(180deg);
+}
+
+/* ── SINGLE CARD (shared by front & back) ── */
+.about-card {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: #fff;
+  border-radius: 20px;
+  padding: 44px 32px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+  transition: box-shadow 0.25s ease;
+  box-sizing: border-box;
+}
+
+.card-front {
+  transform: rotateY(0deg);
+}
+
+.card-back {
+  transform: rotateY(180deg);
+  background: linear-gradient(135deg, #1f4b8f 0%, #0f2a52 100%);
+  justify-content: center;
+}
+
+.card-back .card-title,
+.card-back .card-desc {
+  color: #fff;
+}
+
+.card-back .card-title::after {
+  background: rgba(255,255,255,0.5);
+}
+
+.card-back .card-desc {
+  color: rgba(255,255,255,0.85);
+  font-size: 14.5px;
+  line-height: 1.9;
+}
+
+.about-card-scene:hover .about-card-flipper:not(.flipped) {
+  box-shadow: 0 12px 36px rgba(15, 42, 82, 0.12);
+}
+
+/* ── ICON CIRCLE ── */
+.card-icon-wrap {
+  width: 72px;
+  height: 72px;
+  background: #1f4b8f;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  flex-shrink: 0;
+  position: relative;
+  overflow: visible;
+}
+
+.card-icon-wrap svg {
+  width: 36px;
+  height: 36px;
+  stroke-width: 1.6;
+}
+
+/* ── CARD TITLE ── */
+.card-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f2a52;
+  margin-bottom: 10px;
+  letter-spacing: -0.2px;
+  position: relative;
+  font-family: 'Poppins', sans-serif;
+}
+
+.card-title::after {
+  content: "";
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: #2f5ea8;
+  margin: 10px auto 0;
+  border-radius: 2px;
+}
+
+/* ── CARD DESC ── */
+.card-desc {
+  font-size: 14px;
+  color: #777;
+  line-height: 1.85;
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ======================================================
+   MISSION ANIMATION – glass shatter / crack effect
+   ====================================================== */
+
+.mission-anim {
+  animation: missionPulse 3.5s ease-in-out infinite;
+}
+
+.mission-anim::before,
+.mission-anim::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.35);
+  animation: missionRipple 3.5s ease-out infinite;
+  pointer-events: none;
+}
+
+.mission-anim::before {
+  inset: -8px;
+  animation-delay: 0s;
+}
+
+.mission-anim::after {
+  inset: -16px;
+  animation-delay: 0.5s;
+}
+
+@keyframes missionPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(47,94,168,0); }
+  40%      { box-shadow: 0 0 18px 6px rgba(47,94,168,0.45); }
+}
+
+@keyframes missionRipple {
+  0%   { opacity: 0.7; transform: scale(0.9); }
+  60%  { opacity: 0.15; transform: scale(1.35); }
+  100% { opacity: 0; transform: scale(1.6); }
+}
+
+/* Glass shatter overlay – fake crack lines via clip-path flash */
+.mission-anim svg {
+  animation: missionShatter 3.5s ease-in-out infinite;
+}
+
+@keyframes missionShatter {
+  0%,35%,100%  { filter: none; transform: scale(1) rotate(0deg); }
+  38%          { filter: drop-shadow(0 0 6px #fff) brightness(1.6); transform: scale(1.12) rotate(-3deg); }
+  40%          { filter: drop-shadow(0 0 0px #fff) brightness(1); transform: scale(0.95) rotate(2deg); }
+  42%          { filter: drop-shadow(0 0 8px rgba(255,255,255,0.9)) brightness(1.8); transform: scale(1.05) rotate(-1deg); }
+  46%          { filter: none; transform: scale(1) rotate(0deg); }
+}
+
+/* ======================================================
+   VISION ANIMATION – bulb flicker / light glow
+   ====================================================== */
+
+.vision-anim {
+  animation: visionGlow 4s ease-in-out infinite;
+}
+
+.vision-anim svg {
+  animation: visionBulbFlicker 4s ease-in-out infinite;
+}
+
+@keyframes visionGlow {
+  0%,100% { box-shadow: 0 0 0 0 rgba(255,230,80,0); }
+  25%     { box-shadow: 0 0 22px 8px rgba(255,230,80,0.35); }
+  28%     { box-shadow: 0 0 4px 2px rgba(255,230,80,0.1); }
+  30%     { box-shadow: 0 0 25px 10px rgba(255,230,80,0.45); }
+  55%     { box-shadow: 0 0 0 0 rgba(255,230,80,0); }
+}
+
+@keyframes visionBulbFlicker {
+  0%,20%,100% { filter: none; }
+  22%         { filter: brightness(2.0) drop-shadow(0 0 8px #ffe04a); }
+  24%         { filter: brightness(0.7); }
+  26%         { filter: brightness(2.2) drop-shadow(0 0 12px #ffe04a); }
+  30%         { filter: brightness(1.6) drop-shadow(0 0 6px #ffd700); }
+  55%         { filter: none; }
+}
+
+/* ======================================================
+   VALUES ANIMATION – star particle sparks / blinks
+   ====================================================== */
+
+.values-anim {
+  animation: valuesPulse 3s ease-in-out infinite;
+}
+
+.values-anim svg {
+  animation: valuesSpin 6s linear infinite;
+}
+
+@keyframes valuesPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(100,180,255,0); }
+  50%     { box-shadow: 0 0 20px 8px rgba(100,180,255,0.3); }
+}
+
+@keyframes valuesSpin {
+  0%   { filter: none; }
+  50%  { filter: drop-shadow(0 0 6px rgba(200,220,255,0.9)); }
+  100% { filter: none; }
+}
+
+/* Spark particles via pseudo-elements */
+.values-anim::before {
+  content: "✦";
+  position: absolute;
+  font-size: 9px;
+  color: #ffd700;
+  top: -2px;
+  right: 2px;
+  animation: sparkBlink 1.8s ease-in-out infinite;
+  animation-delay: 0s;
+  pointer-events: none;
+}
+
+.values-anim::after {
+  content: "✦";
+  position: absolute;
+  font-size: 7px;
+  color: #fff;
+  bottom: 0px;
+  left: 2px;
+  animation: sparkBlink 1.8s ease-in-out infinite;
+  animation-delay: 0.9s;
+  pointer-events: none;
+}
+
+@keyframes sparkBlink {
+  0%,100%         { opacity: 0; transform: scale(0.6) translateY(0); }
+  30%             { opacity: 1; transform: scale(1.2) translateY(-4px); }
+  50%             { opacity: 0.7; transform: scale(0.9) translateY(-6px); }
+  70%             { opacity: 0; transform: scale(0.5) translateY(-8px); }
+}
+
+/* ── TYPEWRITER EFFECT ── */
+.typewriter {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid #0f2a52;
+  width: 0;
+  animation: typing 3s steps(12, end) forwards,
+             cursorBlink 0.7s step-end 6,
+             hideCursor 0s linear 3s forwards;
+}
+
+.about-title.animate .typewriter {
+  animation: typing 3s steps(12, end) forwards,
+             cursorBlink 0.7s step-end 6,
+             hideCursor 0s linear 3s forwards;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+@keyframes cursorBlink {
+  50% { border-color: transparent; }
+}
+
+@keyframes hideCursor {
+  to { border-right: none; }
+}
+
+/* ======================================================
+   RESPONSIVE
+   ====================================================== */
+
+/* ── Large Smartphones (481px – 767px) ── */
+@media (max-width: 767px) {
+  .about-wrapper {
+    padding: 60px 20px 70px;
+  }
+  .about-title { font-size: 28px; }
+  .about-bio {
+    font-size: 13.5px;
+    margin-bottom: 40px;
+    /* Smaller slide distance on mobile */
+    transform: translateX(-30px);
+    animation: bioSlideInMobile 0.8s ease-out forwards;
+    animation-delay: 0.3s;
+  }
+  .about-bio.animate {
+    animation: bioSlideInMobile 0.8s ease-out forwards;
+    animation-delay: 0.2s;
+  }
+  .about-cards {
+    flex-direction: column;
+    align-items: center;
+    max-width: 420px;
+  }
+  .about-card-scene {
+    width: 100%;
+    min-height: 320px;
+  }
+  .about-card-flipper {
+    min-height: 320px;
+  }
+  .about-card {
+    padding: 32px 24px;
+    min-height: 320px;
+  }
+  /* Mission/Vision/Values icons slightly smaller on mobile */
+  .mission-anim::before,
+  .mission-anim::after,
+  .values-anim::before,
+  .values-anim::after { font-size: 8px; }
+}
+
+@keyframes bioSlideInMobile {
+  from { opacity: 0; transform: translateX(-30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ── Small Smartphones (320px – 480px) ── */
+@media (max-width: 480px) {
+  .about-wrapper {
+    padding: 48px 14px 56px;
+  }
+  .about-title {
+    font-size: 24px;
+    margin-bottom: 18px;
+  }
+  .about-bio {
+    font-size: 13px;
+    margin-bottom: 32px;
+  }
+  .about-cards {
+    flex-direction: column;
+    align-items: center;
+    max-width: 100%;
+    gap: 18px;
+  }
+  .about-card-scene {
+    width: 100%;
+    min-height: 300px;
+  }
+  .about-card-flipper {
+    min-height: 300px;
+  }
+  .about-card {
+    padding: 28px 18px 24px;
+    min-height: 300px;
+  }
+  .card-icon-wrap {
+    width: 60px;
+    height: 60px;
+  }
+  .card-title { font-size: 17px; }
+  .card-desc  { font-size: 13px; }
+
+  /* Reduce animation intensity to prevent layout overflow */
+  @keyframes missionShatter {
+    0%,35%,100%  { filter: none; transform: scale(1) rotate(0deg); }
+    38%          { filter: drop-shadow(0 0 4px #fff) brightness(1.4); transform: scale(1.08) rotate(-2deg); }
+    40%          { filter: none; transform: scale(0.97) rotate(1deg); }
+    42%          { filter: drop-shadow(0 0 5px rgba(255,255,255,0.7)) brightness(1.5); transform: scale(1.03) rotate(-1deg); }
+    46%          { filter: none; transform: scale(1) rotate(0deg); }
+  }
+}
+
+/* ── Extra Small Devices (Below 320px) ── */
+@media (max-width: 320px) {
+  .about-wrapper {
+    padding: 36px 10px 40px;
+  }
+  .about-title {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+  .about-bio {
+    font-size: 11.5px;
+    margin-bottom: 24px;
+  }
+  .about-card {
+    padding: 20px 12px;
+  }
+  .card-icon-wrap {
+    width: 52px;
+    height: 52px;
+  }
+  .card-title { font-size: 15px; }
+  .card-desc  { font-size: 11.5px; }
+}

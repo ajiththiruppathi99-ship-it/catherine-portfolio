@@ -1,0 +1,495 @@
+/*
+ * NEXT: card peeks from top-right corner, tilted clockwise,
+ *       then swings down-left into the active front position.
+ */
+@keyframes enterFromRight {
+	0% {
+		transform: translate(42%, -32%) rotate(15deg) scale(0.86);
+		opacity: 0.75;
+	}
+	60% {
+		transform: translate(5%, -4%) rotate(2.5deg) scale(0.98);
+		opacity: 1;
+	}
+	100% {
+		transform: translate(0%, 0%) rotate(0deg) scale(1);
+		opacity: 1;
+	}
+}
+
+/*
+ * PREV: card peeks from top-left corner, tilted counter-clockwise,
+ *       then swings down-right into the active front position.
+ */
+@keyframes enterFromLeft {
+	0% {
+		transform: translate(-42%, -32%) rotate(-15deg) scale(0.86);
+		opacity: 0.75;
+	}
+	60% {
+		transform: translate(-5%, -4%) rotate(-2.5deg) scale(0.98);
+		opacity: 1;
+	}
+	100% {
+		transform: translate(0%, 0%) rotate(0deg) scale(1);
+		opacity: 1;
+	}
+}
+
+/* Current active card fades back slightly as new one arrives */
+@keyframes leaveToBack {
+	0% {
+		transform: translate(0, 0) rotate(0deg) scale(1);
+		opacity: 1;
+	}
+	100% {
+		transform: translate(0, 0) rotate(0deg) scale(0.9);
+		opacity: 0;
+	}
+}
+
+#testimonials {
+  background: #f7f8fb;
+  overflow: hidden;
+  z-index: 1000;
+  position: relative;
+}
+
+/* vertical line pattern */
+#testimonials::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.04) 0px,
+    rgba(0, 0, 0, 0.04) 1px,
+    transparent 1px,
+    transparent 40px
+  );
+  z-index: 0;
+}
+
+/* ── page ── */
+body {
+	background: linear-gradient(135deg, #f3f6fb, #f9fbff);
+	font-family: "Poppins", sans-serif;
+	margin: 0;
+	min-height: 100vh;
+}
+
+/* ── section ── */
+.slider {
+	text-align: center;
+  padding: 100px 20px 60px;
+  position: relative;
+  z-index: 1;
+}
+
+.slider h2 {
+  font-size: 34px;
+  font-weight: 600;
+  color: #1f4c8f; /* BLUE like image */
+  margin-bottom: 12px;
+}
+
+.slider .subtitle {
+  color: #1a1a1b;
+  font-size: 15px;
+  margin-bottom: 40px;
+}
+
+/* ── stage ── */
+.slider-stage {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	max-width: 720px;
+	margin: 0 auto;
+	gap: 20px;
+}
+
+/* ── nav buttons ── */
+.slider-nav {
+	display: flex;
+	gap: 15px;
+	justify-content: center;
+	margin-top: 25px;
+	z-index: 10;
+}
+
+.nav-btn {
+	background: #1f4c8f;
+	border: none;
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+	transition: all 0.25s ease;
+}
+
+.nav-btn:hover {
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+	transform: scale(1.08);
+	background: #163a6e;
+}
+
+/* ── card container ── */
+/* overflow: visible so the peeking card shows outside the box */
+.slider-container {
+	position: relative;
+	width: 560px;
+	height: 280px;
+	margin: 0 auto;
+	overflow: visible;
+}
+
+.slider-container::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background-image: repeating-linear-gradient(
+		to right,
+		rgba(0, 0, 0, 0.04) 0px,
+		rgba(0, 0, 0, 0.04) 1px,
+		transparent 1px,
+		transparent 40px
+	);
+	z-index: 0;
+}
+
+.slider-container:hover {
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.30);
+	border-radius: 18px;
+	transition: all 0.25s ease;
+}
+/* ── card base ── */
+.card-base {
+	position: absolute;
+	inset: 0;
+	padding: 35px;
+	border-radius: 16px;
+	background: #e9edf3;
+	box-shadow: 0 5px 8px rgba(0, 0, 0, 0.20);
+	box-sizing: border-box;
+	will-change: transform, opacity;
+}
+
+/* stacked behind — invisible */
+.card-behind {
+	transform: translate(0, 0) scale(0.9);
+	opacity: 0;
+	z-index: 2;
+	pointer-events: none;
+}
+
+/* active front card */
+.card-active {
+	transform: translate(0, 0) rotate(0deg) scale(1);
+	opacity: 1;
+	z-index: 5;
+	pointer-events: auto;
+}
+
+/* entering from right (next) */
+.card-entering-next {
+	z-index: 6;
+	animation: enterFromRight 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+	pointer-events: none;
+}
+
+/* entering from left (prev) */
+.card-entering-prev {
+	z-index: 6;
+	animation: enterFromLeft 0.75s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+	pointer-events: none;
+}
+
+/* leaving (current active sinks back) */
+.card-leaving {
+	z-index: 4;
+	animation: leaveToBack 0.42s cubic-bezier(0.4, 0, 1, 1) forwards;
+	pointer-events: none;
+}
+
+/* ── card content ── */
+.quote {
+	font-size: 15px;
+	color: #4b5563;
+	line-height: 1.7;
+	margin-bottom: 25px;
+	text-align: left;
+}
+
+.user {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.user img {
+	width: 42px;
+	height: 42px;
+	border-radius: 50%;
+	object-fit: cover;
+}
+
+.user h4 {
+	font-size: 12px;
+	margin: 0;
+	color: #151a20;
+	text-align: left;
+}
+
+.user span {
+	font-size: 10px;
+	color: #43464b;
+	margin-right: 70px;
+}
+
+/* ── dots ── */
+.dots {
+	display: flex;
+	justify-content: center;
+	gap: 8px;
+	margin-top: 30px;
+}
+
+.dot {
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: #d1d5db;
+	transition:
+		background 0.3s,
+		transform 0.3s;
+}
+
+.dot.dot-active {
+	background: #6b7280;
+	transform: scale(1.3);
+}
+
+/* ── stats ── */
+.stats {
+	display: flex;
+	justify-content: center;
+	gap: 60px;
+	margin-top: 46px;
+}
+
+.stats h3 {
+	margin: 0;
+	font-size: 28px;
+	color: #1f2937;
+}
+
+.stat-unit {
+	font-size: 16px;
+	color: #6b7280;
+	margin-left: 2px;
+}
+
+.stats p {
+	font-size: 12px;
+	color: #6b7280;
+}
+
+/* ── Large Smartphones (481px – 767px) ── */
+@media (max-width: 767px) {
+  .slider {
+    padding: 60px 16px 40px;
+    text-align: center;
+  }
+  .slider h2 { 
+	font-size: 26px;
+	font-weight: 700;
+    color: #1f4c8f;
+    line-height: 1.3;
+ }
+  .slider .subtitle { 
+	font-size: 13px;
+	max-width: 280px;
+    margin: 10px auto 30px;
+ }
+  .slider-stage {
+    width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+  }
+  .slider-container {
+    width: 100%;
+    max-width: 340px;
+    height: 260px; 
+  }
+
+  .slider-nav {
+    margin-top: 20px;
+    gap: 12px;
+  }
+
+  .dots {
+    display: none;
+  }
+}
+
+  .stats {
+    gap: 36px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .stats h3 { 
+	font-size: 22px;
+ }
+
+
+.card-behind {
+    display: none;
+  }
+
+  .card-entering-next,
+  .card-entering-prev {
+    z-index: 6;
+  }
+
+   .card-base {
+    padding: 22px;
+    border-radius: 16px;
+  }
+
+  .quote {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .user img {
+    width: 36px;
+    height: 36px;
+  }
+
+  .user h4 {
+    font-size: 14px;
+  }
+
+  .user span {
+    font-size: 12px;
+  }
+
+/* ── Small Smartphones (320px – 480px) ── */
+@media (max-width: 480px) {
+  .slider {
+    padding: 56px 12px 40px;
+  }
+  .slider h2 { 
+	font-size: 38px;
+	font-weight: 600;
+	color: #1f4c8f;
+	line-height: 1.3;
+ }
+  .slider .subtitle { font-size: 25px; margin-bottom: 28px; }
+  .slider-stage {
+    width: 100%;
+  }
+  .slider-container {
+    width: 92%;
+    height: 330px;
+  }
+  .card-base { padding: 22px 18px; }
+  .quote { font-size: 13px; margin-bottom: 16px; }   
+  .nav-btn { width: 40px; height: 40px; }
+  .stats {
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .stats h3 { font-size: 20px; }
+  .stats p { font-size: 11px; }
+}
+
+.user span{
+   font-size: 9px; 
+}
+
+.quote {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+/* ── Extra Small Devices (Below 320px) ── */
+@media (max-width: 319px) {
+  .slider {
+    padding: 44px 8px 32px;
+  }
+  .slider h2 { font-size: 28px; }
+  .slider .subtitle { font-size: 22px; }
+  .slider-container {
+    width: 95%;
+    height: 280px;
+  }
+  .card-base { padding: 16px 12px; border-radius: 12px; }
+  .quote { font-size: 13px; margin-bottom: 12px; }
+  .user h4 { font-size: 13px; }
+  .user span { font-size: 11px; }
+  .nav-btn { width: 34px; height: 34px; }
+  .stats {
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  .stats h3 { font-size: 18px; }
+}
+
+/* ================================================================
+   MOBILE ANIMATION FIXES
+   ================================================================ */
+@media (max-width: 767px) {
+  .slider-stage { width: 100%; }
+}
+
+  .slider {
+    padding: 56px 12px 40px;
+  }
+  .slider h2 { 
+	font-size: 44px;
+	font-weight: 600;
+	color: #1f4c8f;
+	line-height: 1.3;
+ }
+  .slider .subtitle { font-size: 24px; margin-bottom: 28px; }
+
+  .slider-container {
+    width: 92%;
+    height: 370px;
+  }
+  .card-base { padding: 22px 18px; }
+  .quote { font-size: 18px; margin-bottom: 16px; }   
+  .nav-btn { width: 40px; height: 40px; }
+  .stats {
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .stats h3 { font-size: 20px; }
+  .stats p { font-size: 11px; }
+
+ .user h4 { font-size: 18px; }
+
+.user span{
+   font-size: 13px; 
+}
+
+.quote {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+

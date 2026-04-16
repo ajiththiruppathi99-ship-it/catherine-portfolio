@@ -1,0 +1,157 @@
+.profile {
+	position: absolute;
+	cursor: pointer;
+	z-index: 10;
+	/* Center on rings and rotate outward by radius */
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) rotate(var(--angle)) translateY(calc(-1 * var(--orbit-radius))) rotate(calc(-1 * var(--angle)));
+	transition: transform 0.3s ease;
+}
+
+/* ---- Capsule: wraps image + hidden details ---- */
+.capsule {
+	display: flex;
+	align-items: center;
+	border-radius: 999px;
+	padding: 4px;
+	background: #ffffff;
+	transition: background 0.3s ease, box-shadow 0.3s ease;
+
+	/* White-cyan glow that matches the reference image */
+	box-shadow:
+		0 0 12px 3px rgba(255, 255, 255, 0.6),
+		0 0 22px 6px rgba(0, 160, 255, 0.35);
+}
+
+/* ---- Profile image: white circle fill ---- */
+.capsule img {
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	flex-shrink: 0;
+	display: block;
+	object-fit: cover;
+	background: #ffffff;
+	transition: transform 0.3s ease;
+}
+
+/* ---- Hidden details container ---- */
+.capsule .profile-details {
+	max-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	padding: 0;
+	opacity: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	transition:
+		max-width 0.35s ease,
+		opacity 0.3s ease,
+		padding 0.35s ease;
+}
+
+/* Name text */
+.capsule .name {
+	color: #ffffff;
+	font-size: 14px;
+	font-weight: 500;
+	line-height: 1.3;
+	margin: 0;
+	padding: 0;
+}
+
+/* "Open Website" link */
+.capsule .view-link {
+	color: #b0d8f5;
+	font-size: 10px;
+	font-weight: 400;
+	line-height: 1.3;
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
+	transition: color 0.2s ease;
+}
+
+.capsule .view-link:hover {
+	color: #ffffff;
+}
+
+/* ---- Hover state: expand capsule ---- */
+.profile:hover .capsule {
+	background: linear-gradient(to right, #38bdf8, #0c4a6e);
+	box-shadow:
+		0 0 16px 4px rgba(255, 255, 255, 0.5),
+		0 0 30px 10px rgba(0, 160, 255, 0.4);
+}
+
+.profile:hover .capsule .profile-details {
+	max-width: 180px;
+	padding: 0 16px 0 10px;
+	opacity: 1;
+}
+
+.profile:hover .capsule img {
+	transform: scale(1.08);
+}
+
+/* ── Mobile: Keep the SAME hover animation as desktop ── */
+@media (max-width: 767px) {
+	.capsule {
+		padding: 3px; /* Slightly smaller padding */
+		box-shadow:
+			0 0 10px 2px rgba(255, 255, 255, 0.55),
+			0 0 18px 5px rgba(0, 160, 255, 0.3);
+	}
+
+	.capsule img {
+		width: 32px; /* Smaller images to fit more in screen */
+		height: 32px;
+	}
+
+	/* Still hidden by default, shown on hover/touch */
+	.capsule .profile-details {
+		max-width: 0;
+		padding: 0;
+		opacity: 0;
+	}
+
+	.profile:hover .capsule .profile-details,
+	.profile:active .capsule .profile-details {
+		max-width: 130px;
+		padding: 0 10px 0 8px;
+		opacity: 1;
+	}
+
+	.capsule .name { font-size: 11px; }
+	.capsule .view-link { font-size: 8px; }
+}
+
+@media (max-width: 480px) {
+	.capsule img { width: 28px; height: 28px; }
+	.profile:hover .capsule .profile-details,
+	.profile:active .capsule .profile-details {
+		max-width: 110px;
+	}
+	.capsule .name { font-size: 10px; }
+	.capsule .view-link { font-size: 7.5px; }
+}
+
+@media (max-width: 375px) {
+	.capsule img { width: 24px; height: 24px; }
+	.profile:hover .capsule .profile-details,
+	.profile:active .capsule .profile-details {
+		max-width: 100px;
+	}
+	.capsule .name { font-size: 9px; }
+}
+
+@media (max-width: 320px) {
+	.capsule img { width: 20px; height: 20px; }
+	.profile:hover .capsule .profile-details,
+	.profile:active .capsule .profile-details {
+		max-width: 80px;
+	}
+	.capsule .name { font-size: 8px; }
+}

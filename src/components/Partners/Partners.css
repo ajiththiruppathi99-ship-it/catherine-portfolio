@@ -1,0 +1,247 @@
+.orbit-container {
+	position: relative;
+	width: 100%;
+	height: 900px;
+	margin: 0 auto;
+	background: #0d2b52;
+	overflow: hidden;
+	margin-bottom: -170px;
+}
+
+/* ---- Center title ---- */
+.center-text {
+	position: absolute;
+	top: 56%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	color: rgb(248, 236, 236);
+	text-align: center;
+	z-index: 10;
+	font-family: 'Poppins', sans-serif;
+	font-size: 25px;
+	font-weight: 500;
+}
+
+.center-text span {
+	color: rgb(248, 236, 236);
+	font-size: 20px;
+	font-weight: 600;
+}
+
+/* ---- Orbit circle: STATIC border ring, no rotation ---- */
+.orbit {
+	position: absolute;
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 50%;
+	/* Center all orbits at 50% horizontal, 55% vertical */
+	left: 50%;
+	top: 55%;
+	transform: translate(-50%, -50%);
+}
+
+/* Orbit sizes */
+.orbit1 {
+	width: 300px;
+	height: 300px;
+	--orbit-radius: 150px;
+	z-index: 4;
+}
+.orbit2 {
+	width: 500px;
+	height: 500px;
+	--orbit-radius: 250px;
+	z-index: 3;
+}
+.orbit3 {
+	width: 700px;
+	height: 700px;
+	--orbit-radius: 350px;
+	z-index: 2;
+}
+.orbit4 {
+	width: 900px;
+	height: 900px;
+	--orbit-radius: 450px;
+	z-index: 1;
+}
+
+/* ---- Sparkle ring: this wrapper ROTATES, carrying only the star-dots ---- */
+.sparkle-ring {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	animation: sparkle-rotate linear infinite;
+	pointer-events: none;
+	z-index: 0;
+}
+
+/* ---- Star dots on orbit rings ---- */
+.star-dot-wrapper {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) rotate(var(--angle)) translateY(calc(-1 * var(--orbit-radius)));
+	pointer-events: none;
+	z-index: 5;
+}
+
+.star-dot {
+	width: 4px;
+	height: 4px;
+	border-radius: 50%;
+	background: #ffffff;
+	box-shadow:
+		0 0 4px 1px rgba(255, 255, 255, 0.9),
+		0 0 8px 3px rgba(0, 212, 255, 0.6),
+		0 0 14px 5px rgba(0, 212, 255, 0.3);
+	animation: sparkle-twinkle 2s ease-in-out infinite;
+}
+
+/* ---- Bottom gradient fade: hides the lower half of orbits ---- */
+.orbit-bottom-fade {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 280px;
+	background: linear-gradient(to bottom, transparent 0%, #0d2b52 70%);
+	z-index: 6;
+	pointer-events: none;
+}
+
+/* ---- Keyframes ---- */
+@keyframes sparkle-rotate {
+	from { transform: rotate(0deg); }
+	to   { transform: rotate(360deg); }
+}
+
+@keyframes sparkle-twinkle {
+	0%, 100% {
+		opacity: 0.2;
+		transform: scale(0.5);
+		box-shadow:
+			0 0 2px 0px rgba(255, 255, 255, 0.5),
+			0 0 4px 1px rgba(0, 212, 255, 0.2);
+	}
+	50% {
+		opacity: 1;
+		transform: scale(1.4);
+		box-shadow:
+			0 0 6px 2px rgba(255, 255, 255, 1),
+			0 0 12px 4px rgba(0, 212, 255, 0.8),
+			0 0 20px 8px rgba(0, 212, 255, 0.3);
+	}
+}
+
+/* ================================================================
+   RESPONSIVE — keep the SAME circular orbit design, just scaled
+   ================================================================ */
+
+/* ── Tablets / Large Smartphones (max 767px) ── */
+@media (max-width: 767px) {
+	.orbit-container {
+		height: 500px;
+		margin-bottom: -76px;
+	}
+
+	/* Shift orbit center lower so arcs peek from the sides like the design */
+	.orbit {
+		top: 62%;
+	}
+
+	.orbit1 { width: 160px;  height: 160px; --orbit-radius: 80px; }
+	.orbit2 { width: 260px;  height: 260px; --orbit-radius: 122px; }
+	.orbit3 { width: 350px;  height: 360px; --orbit-radius: 186px; }
+	.orbit4 { width: 435px;  height: 460px; --orbit-radius: 205px; }
+
+	.center-text {
+		top: auto;
+		bottom: 146px;
+		left: 50%;
+		transform: translateX(-50%);
+		font-size: 19px;
+		font-weight: 500;
+		white-space: nowrap;
+	}
+	.center-text span { font-size: 19px; font-weight: 500; }
+
+	.orbit-bottom-fade { height: 120px; }
+}
+
+/* ── Small Smartphones (max 480px) ── */
+@media (max-width: 480px) {
+	.orbit-container {
+		height: 400px;
+		margin-bottom: -80px;
+	}
+
+	.orbit { top: 58%; }
+
+	.orbit1 { width: 140px;  height: 140px; --orbit-radius: 64px; }
+	.orbit2 { width: 195px;  height: 195px; --orbit-radius: 95px; }
+	.orbit3 { width: 265px;  height: 270px; --orbit-radius: 140px; }
+	.orbit4 { width: 330px;  height: 330px; --orbit-radius: 165px; }
+
+	.center-text {
+		font-size: 18px;
+		bottom: 130px;
+		font-weight: 500;
+	}
+	.center-text span { 
+		font-size: 18px;
+		font-weight:500;
+	 }
+
+	.orbit-bottom-fade { height: 140px; }
+}
+
+/* ── Extra Small (max 375px) ── */
+@media (max-width: 375px) {
+	.orbit-container {
+		height: 490px;
+		margin-bottom: -220px;
+	}
+
+	.orbit { top: 40%; }
+
+	.orbit1 { width: 110px;  height: 110px; --orbit-radius: 50px; }
+	.orbit2 { width: 160px;  height: 160px; --orbit-radius: 76px; }
+	.orbit3 { width: 220px;  height: 220px; --orbit-radius: 115px; }
+	.orbit4 { width: 280px;  height: 280px; --orbit-radius: 140px; }
+
+	.center-text {
+		font-size: 12px;
+		bottom: 270px;
+		font-weight: 500;
+	}
+	.center-text span { 
+		font-size: 12px;
+	    font-weight: 500; }
+}
+
+    .orbit-bottom-fade { height: 140px; }
+/* ── Extra Small (max 320px) ── */
+@media (max-width: 320px) {
+	.orbit-container {
+		height: 500px;
+		margin-bottom: -50px;
+	}
+
+	.orbit { top: 76%; }
+
+	.orbit1 { width: 90px;  height: 90px; --orbit-radius: 45px; }
+	.orbit2 { width: 140px;  height: 140px; --orbit-radius: 70px; }
+	.orbit3 { width: 190px;  height: 190px; --orbit-radius: 95px; }
+	.orbit4 { width: 240px;  height: 240px; --orbit-radius: 120px; }
+
+	.center-text {
+		font-size: 20px;
+		bottom: 36px;
+	}
+	.center-text span { font-size: 20px; }
+
+	.orbit-bottom-fade { height: 80px; }
+}
