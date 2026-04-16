@@ -113,13 +113,13 @@
 	font-weight: 600;
 	margin-bottom: 10px;
 	line-height: 1.4;
-	font-family: 'Poppins', sans-serif;
+	font-family: "Poppins", sans-serif;
 }
 
 .name-highlight {
 	color: #0d3f80;
 	font-weight: 600;
-	font-family: 'Poppins', sans-serif;
+	font-family: "Poppins", sans-serif;
 }
 
 .name-char {
@@ -129,46 +129,78 @@
 }
 
 .name-char.animate {
-	animation: letterPop 0.3s ease-out forwards calc(var(--i) * 0.08s + 0.2s),
-	           groupBlink 1.2s ease-in-out forwards 2.0s;
+	animation:
+		letterPop 0.3s ease-out forwards calc(var(--i) * 0.08s + 0.2s),
+		groupBlink 1.2s ease-in-out forwards 2s;
 }
 
 .name-char.animate.last-char {
-	animation: letterPop 0.3s ease-out forwards calc(var(--i) * 0.08s + 0.2s),
-	           groupBlink 1.2s ease-in-out forwards 2.0s,
-	           eRoll 1s ease-in-out forwards 3.3s;
+	animation:
+		letterPop 0.3s ease-out forwards calc(var(--i) * 0.08s + 0.2s),
+		groupBlink 1.2s ease-in-out forwards 2s,
+		eRoll 1s ease-in-out forwards 3.3s;
 }
 
 @keyframes letterPop {
-	0%   { opacity: 0; transform: scale(0.5); }
-	100% { opacity: 1; transform: scale(1); text-shadow: 0 -1px 3px rgba(255, 255, 255, 0.7); }
+	0% {
+		opacity: 0;
+		transform: scale(0.5);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+		text-shadow: 0 -1px 3px rgba(255, 255, 255, 0.7);
+	}
 }
 
 @keyframes groupBlink {
-	0%   { text-shadow: 0 -1px 3px rgba(255, 255, 255, 0.7); }
-	20%  { text-shadow: 0 -1px 3px rgba(255, 255, 255, 0.7), 0 0 3px #fff, 0 0 8px #fff, 0 0 15px #e470ff, 0 0 30px #e470ff, 0 0 50px #e470ff, 0 0 80px #e470ff; }
-	40%  { text-shadow: 0 -1px 3px rgba(255, 255, 255, 0.7); }
-	100% { text-shadow: 0 -1px 3px rgba(255, 255, 255, 0.7); }
+	0% {
+		text-shadow: 0 -1px 3px rgba(255, 255, 255, 0.7);
+	}
+	20% {
+		text-shadow:
+			0 -1px 3px rgba(255, 255, 255, 0.7),
+			0 0 3px #fff,
+			0 0 8px #fff,
+			0 0 15px #e470ff,
+			0 0 30px #e470ff,
+			0 0 50px #e470ff,
+			0 0 80px #e470ff;
+	}
+	40% {
+		text-shadow: 0 -1px 3px rgba(255, 255, 255, 0.7);
+	}
+	100% {
+		text-shadow: 0 -1px 3px rgba(255, 255, 255, 0.7);
+	}
 }
 
 @keyframes eRoll {
-	0%   { transform: scale(1) translateX(0) rotate(0deg); }
-	40%  { transform: scale(1) translateX(12px) rotate(180deg); }
-	60%  { transform: scale(1) translateX(12px) rotate(180deg); }
-	100% { transform: scale(1) translateX(0) rotate(0deg); }
+	0% {
+		transform: scale(1) translateX(0) rotate(0deg);
+	}
+	40% {
+		transform: scale(1) translateX(12px) rotate(180deg);
+	}
+	60% {
+		transform: scale(1) translateX(12px) rotate(180deg);
+	}
+	100% {
+		transform: scale(1) translateX(0) rotate(0deg);
+	}
 }
 
 .hero-title {
 	font-size: 80px;
 	font-weight: 900;
 	color: #0d3f80; /* fallback */
-	
+
 	/* GLASS SHINE EFFECT (MATCHING NAVBAR) */
 	background: linear-gradient(
 		120deg,
 		#0d3f80 45%,
-		#5ca4f8 49%, 
-		#ffffff 50%, 
+		#5ca4f8 49%,
+		#ffffff 50%,
 		#5ca4f8 51%,
 		#0d3f80 55%
 	);
@@ -180,38 +212,46 @@
 	line-height: 1;
 	margin: 12px 0 28px;
 	letter-spacing: -2px;
-	font-family: 'Poppins', sans-serif;
-	transition: transform 0.3s ease, text-shadow 0.1s linear;
+	font-family: "Poppins", sans-serif;
+	transition:
+		transform 0.3s ease,
+		text-shadow 0.1s linear;
 	cursor: default;
 }
 
 @keyframes glassShine {
-	0%   { background-position: 100% center; }
-	50%  { background-position: 0% center; }
-	100% { background-position: 0% center; }
+	0% {
+		background-position: 100% center;
+	}
+	50% {
+		background-position: 0% center;
+	}
+	100% {
+		background-position: 0% center;
+	}
 }
 
 .hero-title:hover {
 	transform: translateY(-6px);
-	text-shadow: 
-		calc(var(--sx, 0px) * 1) calc(var(--sy, 0px) * 1) 0 #0a2d5e, 
-		calc(var(--sx, 0px) * 2) calc(var(--sy, 0px) * 2) 0 #0a2d5e, 
-		calc(var(--sx, 0px) * 3) calc(var(--sy, 0px) * 3) 0 #08254f, 
-		calc(var(--sx, 0px) * 4) calc(var(--sy, 0px) * 4) 0 #08254f, 
-		calc(var(--sx, 0px) * 5) calc(var(--sy, 0px) * 5) 0 #061e40, 
-		calc(var(--sx, 0px) * 6) calc(var(--sy, 0px) * 6) 0 #061e40, 
-		calc(var(--sx, 0px) * 7) calc(var(--sy, 0px) * 7) 15px rgba(0,0,0,0.4) !important;
+	text-shadow:
+		calc(var(--sx, 0px) * 1) calc(var(--sy, 0px) * 1) 0 #0a2d5e,
+		calc(var(--sx, 0px) * 2) calc(var(--sy, 0px) * 2) 0 #0a2d5e,
+		calc(var(--sx, 0px) * 3) calc(var(--sy, 0px) * 3) 0 #08254f,
+		calc(var(--sx, 0px) * 4) calc(var(--sy, 0px) * 4) 0 #08254f,
+		calc(var(--sx, 0px) * 5) calc(var(--sy, 0px) * 5) 0 #061e40,
+		calc(var(--sx, 0px) * 6) calc(var(--sy, 0px) * 6) 0 #061e40,
+		calc(var(--sx, 0px) * 7) calc(var(--sy, 0px) * 7) 15px rgba(0, 0, 0, 0.4) !important;
 }
 
 .hero-title:hover .i-dot {
-	box-shadow: 
-		calc(var(--sx, 0px) * 1) calc(var(--sy, 0px) * 1) 0 #0a2d5e, 
-		calc(var(--sx, 0px) * 2) calc(var(--sy, 0px) * 2) 0 #0a2d5e, 
-		calc(var(--sx, 0px) * 3) calc(var(--sy, 0px) * 3) 0 #08254f, 
-		calc(var(--sx, 0px) * 4) calc(var(--sy, 0px) * 4) 0 #08254f, 
-		calc(var(--sx, 0px) * 5) calc(var(--sy, 0px) * 5) 0 #061e40, 
-		calc(var(--sx, 0px) * 6) calc(var(--sy, 0px) * 6) 0 #061e40, 
-		calc(var(--sx, 0px) * 7) calc(var(--sy, 0px) * 7) 15px rgba(0,0,0,0.4) !important;
+	box-shadow:
+		calc(var(--sx, 0px) * 1) calc(var(--sy, 0px) * 1) 0 #0a2d5e,
+		calc(var(--sx, 0px) * 2) calc(var(--sy, 0px) * 2) 0 #0a2d5e,
+		calc(var(--sx, 0px) * 3) calc(var(--sy, 0px) * 3) 0 #08254f,
+		calc(var(--sx, 0px) * 4) calc(var(--sy, 0px) * 4) 0 #08254f,
+		calc(var(--sx, 0px) * 5) calc(var(--sy, 0px) * 5) 0 #061e40,
+		calc(var(--sx, 0px) * 6) calc(var(--sy, 0px) * 6) 0 #061e40,
+		calc(var(--sx, 0px) * 7) calc(var(--sy, 0px) * 7) 15px rgba(0, 0, 0, 0.4) !important;
 }
 
 .i-dot-wrapper {
@@ -276,7 +316,7 @@
 	line-height: 1.6;
 	font-weight: 600;
 	max-width: 500px;
-	font-family: 'Poppins', sans-serif;
+	font-family: "Poppins", sans-serif;
 }
 
 /* ── RIGHT ── */
@@ -502,7 +542,7 @@
 	}
 	.stat-num {
 		font-size: 58px;
-		font-weight:500;
+		font-weight: 500;
 	}
 }
 
@@ -533,16 +573,19 @@
 	}
 	.hero-right {
 		width: 100%;
-		height: 320px;
+		height: 520px;
 	}
 	.hero-arch {
-		width: 220px;
-		height: 300px;
+		width: 340px;
+		height: 460px;
 	}
 	.hero-photo {
-		width: 900px;
-		max-height: 900px;
-		margin-left:60px;
+		width: 480px;
+		max-height: none;
+		margin-left: 0;
+		transform: scale(1.15);
+		transform-origin: bottom center;
+		bottom: 0;
 	}
 	.social-strip {
 		display: none;
@@ -562,101 +605,100 @@
 }
 
 /* ── Small Smartphones (320px – 480px) ── */
-@media (max-width: 480px) {
+@media (max-width: 660px) {
+	/* ── HERO ── */
+	.home-hero {
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		padding: 70px 16px 0;
+		gap: 12px;
+	}
 
-  /* ── HERO ── */
-  .home-hero {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 70px 16px 0;
-    gap: 12px;
-  }
+	.hero-left {
+		width: 100%;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
 
-  .hero-left {
-    width: 100%;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+	/* greeting */
+	.hero-greeting {
+		font-size: 19px;
+		margin-bottom: 6px;
+		margin-top: 30px;
+	}
 
-  /* greeting */
-  .hero-greeting {
-    font-size: 19px;
-    margin-bottom: 6px;
-	margin-top: 30px;
-  }
+	/* TITLE (match image scale) */
+	.hero-title {
+		font-size: 38px;
+		font-weight: 600;
+		line-height: 1.2;
+		margin: 6px 0 10px;
+		letter-spacing: -0.5px;
+	}
 
-  /* TITLE (match image scale) */
-  .hero-title {
-    font-size: 38px;
-	font-weight: 600;
-    line-height: 1.2;
-    margin: 6px 0 10px;
-    letter-spacing: -0.5px;
-  }
+	/* tagline */
+	.hero-tagline {
+		font-size: 20px;
+		margin-bottom: -15px;
+	}
 
-  /* tagline */
-  .hero-tagline {
-    font-size: 20px;
-    margin-bottom: -15px;
-  }
+	/* ── IMAGE + ARCH ── */
+	.hero-right {
+		width: 100%;
+		height: 500px;
+		display: flex;
+		justify-content: center;
+		position: relative;
+		margin-bottom: -40px; /* pulls stats up */
+	}
 
-  /* ── IMAGE + ARCH ── */
-  .hero-right {
-    width: 100%;
-    height: 470px;
-    display: flex;
-    justify-content: center;
-    position: relative;
-    margin-bottom: -60px; /* pulls stats up */
-  }
+	.hero-arch {
+		width: 300px;
+		height: 440px;
+		border-radius: 160px 160px 0 0;
+		left: 50%;
+		transform: translateX(-50%);
+	}
 
-  .hero-arch {
-    width: 255px;
-    height: 390px;
-    border-radius: 120px 120px 0 0;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+	.hero-photo {
+		width: 500px;
+		max-width: 550px;
+		height: auto;
+		transform: scale(1.22); /* makes head go outside arch */
+		transform-origin: bottom center;
+		bottom: 0;
+		left: 10;
+		margin-left: 0;
+	}
 
-  .hero-photo {
-    width: 366px;
-    max-width: none;
-    height: auto;
-	transform: scale(1.15); /* makes head go outside arch */
-    transform-origin: bottom center;
-    bottom: 0;
-    left: 0;
-	margin-left: 20px;
-  }
+	/* ── STATS ── */
+	.hero-stats {
+		width: 100%;
+		background: #0f2a52;
+		padding: 70px 0 30px;
+		margin-top: 0;
+		flex-direction: column;
+		gap: 20px;
+		align-items: center;
+	}
 
-  /* ── STATS ── */
-  .hero-stats {
-    width: 100%;
-    background: #0f2a52;
-    padding: 70px 0 30px;
-    margin-top: 0;
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
-  }
+	.stat-num {
+		font-size: 50px;
+		margin-bottom: 20px;
+		font-weight: 600; /* bolder */
+		letter-spacing: -0.5px;
+		text-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
+	}
 
-  .stat-num {
-    font-size: 50px;
-    margin-bottom: 20px;
-	font-weight: 600;  /* bolder */
-    letter-spacing: -.5px;
-	text-shadow: 0 0 20px rgba(255, 255, 255, 0.25);
-  }
-
-  .stat-label {
-    font-size: 20px;
-	margin-bottom: 50px;
-    opacity: 0.9;
-	color: white;
-  }
+	.stat-label {
+		font-size: 20px;
+		margin-bottom: 50px;
+		opacity: 0.9;
+		color: white;
+	}
 }
 /* ── Extra Small Devices (Below 320px) ── */
 @media (max-width: 320px) {
@@ -675,15 +717,18 @@
 		font-size: 18px;
 	}
 	.hero-right {
-		height: 380px;
+		height: 420px;
 	}
 	.hero-arch {
-		width: 220px;
-		height: 330px;
+		width: 240px;
+		height: 350px;
 	}
 	.hero-photo {
-		max-width: 320px;
-		margin-bottom:-20px;
+		width: 420px;
+		max-width: 430px;
+		transform: scale(1.2);
+		margin-bottom: 0;
+		left: -40px;
 	}
 	.hero-stats {
 		flex-direction: column;
@@ -702,28 +747,30 @@
    MOBILE ANIMATION FIXES — ensure all hero animations work on mobile
    ================================================================ */
 @media (max-width: 767px) {
-  /* Door-open arch animation — preserve on mobile, reduce 3D depth */
-  @keyframes doorOpen {
-    0% {
-      opacity: 0;
-      transform: translateX(-50%) perspective(600px) rotateY(70deg);
-    }
-    40% { opacity: 1; }
-    100% {
-      opacity: 1;
-      transform: translateX(-50%) perspective(600px) rotateY(0deg);
-    }
-  }
+	/* Door-open arch animation — preserve on mobile, reduce 3D depth */
+	@keyframes doorOpen {
+		0% {
+			opacity: 0;
+			transform: translateX(-50%) perspective(600px) rotateY(70deg);
+		}
+		40% {
+			opacity: 1;
+		}
+		100% {
+			opacity: 1;
+			transform: translateX(-50%) perspective(600px) rotateY(0deg);
+		}
+	}
 
-  /* Ensure name chars still animate */
-  .name-char.animate {
-    animation: letterPop 0.3s ease-out forwards calc(var(--i) * 0.08s + 0.2s),
-               groupBlink 1.2s ease-in-out forwards 2.0s;
-  }
+	/* Ensure name chars still animate */
+	.name-char.animate {
+		animation:
+			letterPop 0.3s ease-out forwards calc(var(--i) * 0.08s + 0.2s),
+			groupBlink 1.2s ease-in-out forwards 2s;
+	}
 
-  /* Ensure stats text-shadow glow works */
-  .hero-stats {
-    text-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
-  }
+	/* Ensure stats text-shadow glow works */
+	.hero-stats {
+		text-shadow: 0 0 25px rgba(255, 255, 255, 0.4);
+	}
 }
-

@@ -226,22 +226,24 @@
 /* ── Extra Small (max 320px) ── */
 @media (max-width: 320px) {
 	.orbit-container {
-		height: 500px;
-		margin-bottom: -50px;
+		height: 300px;
+		margin-bottom: -40px;
 	}
 
-	.orbit { top: 76%; }
+	.orbit { top: 65%; }
 
 	.orbit1 { width: 90px;  height: 90px; --orbit-radius: 45px; }
 	.orbit2 { width: 140px;  height: 140px; --orbit-radius: 70px; }
-	.orbit3 { width: 190px;  height: 190px; --orbit-radius: 95px; }
-	.orbit4 { width: 240px;  height: 240px; --orbit-radius: 120px; }
+	.orbit3 { width: 210px;  height: 210px; --orbit-radius: 115px; }
+	.orbit4 { width: 260px;  height: 280px; --orbit-radius: 120px; }
 
 	.center-text {
-		font-size: 20px;
-		bottom: 36px;
+		font-size: 11px;
+		bottom: 75px;
 	}
-	.center-text span { font-size: 20px; }
+	.center-text span { 
+		font-size: 11px;
+	}
 
 	.orbit-bottom-fade { height: 80px; }
 }
