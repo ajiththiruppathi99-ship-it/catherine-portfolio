@@ -1,15 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Contact.css';
-import { FaMapMarkerAlt, FaEnvelope, FaPhoneAlt } from 'react-icons/fa';
 import { FiMapPin, FiMail, FiPhone } from 'react-icons/fi';
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    location: '',
+    company: '',
+    purpose: '',
+  });
+
+  const [status, setStatus] = useState('idle'); // idle | loading | success | error
+  const [statusMsg, setStatusMsg] = useState('');
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus('loading');
+    setStatusMsg('');
+
+    try {
+      const res = await fetch('http://localhost:5000/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        setStatus('success');
+        setStatusMsg('✅ Your message has been sent successfully!');
+        setFormData({ name: '', email: '', phone: '', location: '', company: '', purpose: '' });
+      } else {
+        setStatus('error');
+        setStatusMsg(`❌ ${result.error || 'Something went wrong. Please try again.'}`);
+      }
+    } catch (err) {
+      setStatus('error');
+      setStatusMsg('❌ Could not reach the server. Please try again later.');
+    }
+  };
+
   return (
     <div className="contact-wrapper">
       <div className="contact-container">
         {/* Left Column */}
         <div className="contact-info">
-          <h1 className="contact-heading">Let’s Connect</h1>
+          <h1 className="contact-heading">Let's Connect</h1>
           <p className="contact-subheading">
             Interested in collaboration, partnerships, or business opportunities? Feel free to reach out and start the conversation.
           </p>
@@ -48,21 +91,76 @@ const Contact = () => {
           </div>
         </div>
 
-        {/* Right Column */}
+        {/* Right Column – Form */}
         <div className="contact-form-container">
-          <form className="contact-form">
+          <form className="contact-form" onSubmit={handleSubmit}>
             <div className="form-row">
-              <input type="text" placeholder="Your Name*" className="form-input half-width" />
-              <input type="email" placeholder="Your Email*" className="form-input half-width" />
+              <input
+                type="text"
+                name="name"
+                placeholder="Your Name*"
+                className="form-input half-width"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Your Email*"
+                className="form-input half-width"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
             </div>
             <div className="form-row">
-              <input type="tel" placeholder="Your Phone*" className="form-input half-width" />
-              <input type="text" placeholder="Location*" className="form-input half-width" />
+              <input
+                type="tel"
+                name="phone"
+                placeholder="Your Phone*"
+                className="form-input half-width"
+                value={formData.phone}
+                onChange={handleChange}
+              />
+              <input
+                type="text"
+                name="location"
+                placeholder="Location*"
+                className="form-input half-width"
+                value={formData.location}
+                onChange={handleChange}
+              />
             </div>
-            <input type="text" placeholder="Company/Organization*" className="form-input full-width" />
-            <textarea placeholder="Purpose for connecting*" className="form-input full-width multiline-input" rows="4"></textarea>
-            
-            <button type="submit" className="form-submit-button">Get In Touch</button>
+            <input
+              type="text"
+              name="company"
+              placeholder="Company/Organization*"
+              className="form-input full-width"
+              value={formData.company}
+              onChange={handleChange}
+            />
+            <textarea
+              name="purpose"
+              placeholder="Purpose for connecting*"
+              className="form-input full-width multiline-input"
+              rows="4"
+              value={formData.purpose}
+              onChange={handleChange}
+            />
+
+            {/* Status Message */}
+            {statusMsg && (
+              <p className={`form-status-msg ${status}`}>{statusMsg}</p>
+            )}
+
+            <button
+              type="submit"
+              className="form-submit-button"
+              disabled={status === 'loading'}
+            >
+              {status === 'loading' ? 'Sending...' : 'Get In Touch'}
+            </button>
           </form>
         </div>
       </div>

@@ -124,6 +124,36 @@
 	transition: transform 0.2s ease-in-out;
 }
 
+.contact-button:disabled {
+	opacity: 0.65;
+	cursor: not-allowed;
+	transform: none;
+}
+
+/* Status feedback message */
+.message-status-msg {
+	margin-top: 12px;
+	font-size: 0.9rem;
+	font-weight: 500;
+	padding: 8px 16px;
+	border-radius: 8px;
+	text-align: center;
+	z-index: 2;
+	position: relative;
+}
+
+.message-status-msg.success {
+	background-color: rgba(46, 125, 50, 0.15);
+	color: #81c784;
+	border: 1px solid rgba(129, 199, 132, 0.4);
+}
+
+.message-status-msg.error {
+	background-color: rgba(198, 40, 40, 0.15);
+	color: #ef9a9a;
+	border: 1px solid rgba(239, 154, 154, 0.4);
+}
+
 /* --- Footer Section --- */
 .page-footer {
 	position: absolute;

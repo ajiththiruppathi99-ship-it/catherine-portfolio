@@ -1,13 +1,49 @@
 import './Message.css';
-import { FaInstagram, FaEnvelope, FaWhatsapp, FaLinkedinIn } from 'react-icons/fa';
+import { FaEnvelope, FaLinkedinIn } from 'react-icons/fa';
 import globeAsset from '../../assets/globe.png';
+import { useState } from 'react';
 
 const Message = () => {
+  const [message, setMessage] = useState('');
+  const [status, setStatus] = useState('idle'); // idle | loading | success | error
+  const [statusMsg, setStatusMsg] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!message.trim()) return;
+
+    setStatus('loading');
+    setStatusMsg('');
+
+    try {
+      const res = await fetch('http://localhost:5000/message', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message }),
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        setStatus('success');
+        setStatusMsg('✅ Message sent!');
+        setMessage('');
+        // Auto-reset after 4 seconds
+        setTimeout(() => { setStatus('idle'); setStatusMsg(''); }, 4000);
+      } else {
+        setStatus('error');
+        setStatusMsg(`❌ ${result.error || 'Something went wrong.'}`);
+      }
+    } catch {
+      setStatus('error');
+      setStatusMsg('❌ Could not reach the server. Please try again later.');
+    }
+  };
 
   return (
     <div className="main-page-container">
       <div className="globe-overlay-container">
-        <img 
+        <img
           src={globeAsset}
           alt="Geometric world network"
           className="globe-visual"
@@ -16,31 +52,43 @@ const Message = () => {
 
       <header className="header-content">
         <h3 className="subtitle">Have an Idea ?</h3>
-        <h1 className="title">Let’s Make Something<br/>Amazing Together.</h1>
+        <h1 className="title">Let's Make Something<br/>Amazing Together.</h1>
       </header>
 
       <div className="form-content-wrapper">
-        <form className="message-form">
-          <input 
+        <form className="message-form" onSubmit={handleSubmit}>
+          <input
             type="text"
-            placeholder="Type Your Message Here.." 
+            placeholder="Type Your Message Here.."
             className="message-input"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            required
           />
-          <button type="submit" className="contact-button">
-            Contact Me
+          <button
+            type="submit"
+            className="contact-button"
+            disabled={status === 'loading'}
+          >
+            {status === 'loading' ? 'Sending...' : 'Contact Me'}
           </button>
         </form>
+
+        {/* Status feedback */}
+        {statusMsg && (
+          <p className={`message-status-msg ${status}`}>{statusMsg}</p>
+        )}
       </div>
 
       <footer className="page-footer">
         <p className="copyright-text">
-          © 2026 All rights reserved. | Designed & Developed By Manvian
+          © 2026 All rights reserved. | Designed &amp; Developed By Manvian
         </p>
         <div className="social-links">
           <a href="#" target="_blank" rel="noopener noreferrer" className="social-icon">
             <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12.5275 8.11865C11.3527 8.11865 10.2261 8.58531 9.39547 9.41598C8.56481 10.2466 8.09814 11.3733 8.09814 12.548C8.09814 13.7227 8.56481 14.8493 9.39547 15.68C10.2261 16.5107 11.3527 16.9773 12.5275 16.9773C13.7022 16.9773 14.8288 16.5107 15.6595 15.68C16.4902 14.8493 16.9568 13.7227 16.9568 12.548C16.9568 11.3733 16.4902 10.2466 15.6595 9.41598C14.8288 8.58531 13.7022 8.11865 12.5275 8.11865Z" fill="currentColor"/>
-              <path fill-rule="evenodd" clip-rule="evenodd" d="M5.39972 0.393602C10.1371 -0.131201 14.918 -0.131201 19.6554 0.393602C22.2435 0.682531 24.33 2.72003 24.6339 5.31766C25.1954 10.1213 25.1954 14.9741 24.6339 19.7777C24.33 22.3754 22.2435 24.4129 19.6567 24.7032C14.9189 25.2281 10.1376 25.2281 5.39972 24.7032C2.81162 24.4129 0.725066 22.3754 0.421146 19.7791C-0.140382 14.975 -0.140382 10.1218 0.421146 5.31766C0.725066 2.72003 2.81162 0.682531 5.39972 0.393602ZM19.3419 4.37046C18.9804 4.37046 18.6338 4.51405 18.3782 4.76964C18.1226 5.02523 17.979 5.37188 17.979 5.73334C17.979 6.09479 18.1226 6.44144 18.3782 6.69703C18.6338 6.95262 18.9804 7.09621 19.3419 7.09621C19.7034 7.09621 20.05 6.95262 20.3056 6.69703C20.5612 6.44144 20.7048 6.09479 20.7048 5.73334C20.7048 5.37188 20.5612 5.02523 20.3056 4.76964C20.05 4.51405 19.7034 4.37046 19.3419 4.37046ZM6.0539 12.5477C6.0539 10.8308 6.73594 9.18418 7.94998 7.97014C9.16403 6.7561 10.8106 6.07405 12.5275 6.07405C14.2445 6.07405 15.8911 6.7561 17.1051 7.97014C18.3191 9.18418 19.0012 10.8308 19.0012 12.5477C19.0012 14.2646 18.3191 15.9112 17.1051 17.1253C15.8911 18.3393 14.2445 19.0213 12.5275 19.0213C10.8106 19.0213 9.16403 18.3393 7.94998 17.1253C6.73594 15.9112 6.0539 14.2646 6.0539 12.5477Z" fill="currentColor"/>
+              <path fillRule="evenodd" clipRule="evenodd" d="M5.39972 0.393602C10.1371 -0.131201 14.918 -0.131201 19.6554 0.393602C22.2435 0.682531 24.33 2.72003 24.6339 5.31766C25.1954 10.1213 25.1954 14.9741 24.6339 19.7777C24.33 22.3754 22.2435 24.4129 19.6567 24.7032C14.9189 25.2281 10.1376 25.2281 5.39972 24.7032C2.81162 24.4129 0.725066 22.3754 0.421146 19.7791C-0.140382 14.975 -0.140382 10.1218 0.421146 5.31766C0.725066 2.72003 2.81162 0.682531 5.39972 0.393602ZM19.3419 4.37046C18.9804 4.37046 18.6338 4.51405 18.3782 4.76964C18.1226 5.02523 17.979 5.37188 17.979 5.73334C17.979 6.09479 18.1226 6.44144 18.3782 6.69703C18.6338 6.95262 18.9804 7.09621 19.3419 7.09621C19.7034 7.09621 20.05 6.95262 20.3056 6.69703C20.5612 6.44144 20.7048 6.09479 20.7048 5.73334C20.7048 5.37188 20.5612 5.02523 20.3056 4.76964C20.05 4.51405 19.7034 4.37046 19.3419 4.37046ZM6.0539 12.5477C6.0539 10.8308 6.73594 9.18418 7.94998 7.97014C9.16403 6.7561 10.8106 6.07405 12.5275 6.07405C14.2445 6.07405 15.8911 6.7561 17.1051 7.97014C18.3191 9.18418 19.0012 10.8308 19.0012 12.5477C19.0012 14.2646 18.3191 15.9112 17.1051 17.1253C15.8911 18.3393 14.2445 19.0213 12.5275 19.0213C10.8106 19.0213 9.16403 18.3393 7.94998 17.1253C6.73594 15.9112 6.0539 14.2646 6.0539 12.5477Z" fill="currentColor"/>
             </svg>
           </a>
           <a href="mailto:contact@manvian.com" className="social-icon">
