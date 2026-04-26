@@ -15,37 +15,55 @@ const Contact = () => {
   const [status, setStatus] = useState('idle'); // idle | loading | success | error
   const [statusMsg, setStatusMsg] = useState('');
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+ const handleChange = (e) => {
+  const { name, value } = e.target;
+
+  setFormData((prev) => ({
+    ...prev,
+    [name]: value,
+  }));
+};
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus('loading');
-    setStatusMsg('');
+  e.preventDefault();
 
-    try {
-      const res = await fetch('http://localhost:5000/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+  setStatus("loading");
+  setStatusMsg("");
+
+  try {
+    const response = await fetch("https://catherine-port-backend.onrender.com/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      setStatus("success");
+      setStatusMsg("Message sent successfully!");
+
+      // ✅ clear form
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        location: "",
+        company: "",
+        purpose: "",
       });
-
-      const result = await res.json();
-
-      if (res.ok) {
-        setStatus('success');
-        setStatusMsg('✅ Your message has been sent successfully!');
-        setFormData({ name: '', email: '', phone: '', location: '', company: '', purpose: '' });
-      } else {
-        setStatus('error');
-        setStatusMsg(`❌ ${result.error || 'Something went wrong. Please try again.'}`);
-      }
-    } catch (err) {
-      setStatus('error');
-      setStatusMsg('❌ Could not reach the server. Please try again later.');
+    } else {
+      setStatus("error");
+      setStatusMsg(data.error || "Something went wrong");
     }
-  };
+  } catch (error) {
+    console.error(error);
+    setStatus("error");
+    setStatusMsg("Server error. Try again.");
+  }
+};
 
   return (
     <div className="contact-wrapper">
